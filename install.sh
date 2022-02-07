@@ -58,3 +58,4 @@ apt
 librcsc
 rcssserver
 rcssmonitor
+echo "Apollo basic environment installed successfully !-------------------"
