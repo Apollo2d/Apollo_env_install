@@ -54,6 +54,7 @@ rcssmonitor(){
 	cd ..
 }
 
+apt
 librcsc
 rcssserver
 rcssmonitor
