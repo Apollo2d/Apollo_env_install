@@ -1,8 +1,12 @@
 #! /bin/bash
-set -xe
+#set -x
+set -e
+log_name="install.log"
 
-# 本指令用于首次获取sudo密码
-sudo ls
+sudo ls > ${log_name}
+
+all=(librcsc rcssserver rcssmonitor soccerwindow2 fedit2)
+to_installs=${all[*]}
 
 apt(){
 	# 本段参考了官方文档和合工大的自动安装脚本，感谢合工大的前辈们
@@ -16,46 +20,62 @@ apt(){
 	sudo apt install -y build-essential libboost-all-dev qt5-default libfontconfig1-dev libaudio-dev libxt-dev libglib2.0-dev libxi-dev libxrender-dev 
 	# from librcsc
 	sudo apt install -y libboost-dev libcppunit-dev
-
+    # from soccerwindow2 which same as rcssmonitor
+    # sudo apt install build-essential libboost-all-dev qt5-default libfontconfig1-dev libaudio-dev libxt-dev libglib2.0-dev libxi-dev libxrender-dev 
+    # from fedit2 which use qt5 today
+    # sudo apt install -y libqt4-dev libxpm-dev libaudio-dev libxt-dev libpng-dev libglib2.0-dev libfreetype6-dev libxrender-dev libxext-dev libfontconfig-dev libxi-dev
 }
 
-librcsc(){
-	# git clone https://github.com/helios-base/librcsc.git 
-	git clone https://gitee.com/apollo-2d/librcsc.git
-	cd librcsc
-	./bootstrap
-	./configure
-	make
-	sudo make install
-	sudo ldconfig
-}
-rcssserver(){
-	# todo : 改成自动更新
-	# git clone https://github.com/rcsoccersim/rcssserver.git
-	git clone https://gitee.com/apollo-2d/rcssserver.git
-	cd rcssserver
-	./bootstrap
-	./configure
-	make
-	sudo make install
-	sudo ldconfig
-	cd ..
-}
-rcssmonitor(){
-	# todo : same above
-	# git clone https://github.com/rcsoccersim/rcssmonitor.git
-	git clone https://gitee.com/apollo-2d/rcssmonitor.git
-	cd rcssmonitor
-	./bootstrap
-	./configure
-	make
-	sudo make install
-	sudo ldconfig
-	cd ..
+
+install_any(){
+    if [ $# -ne 1 ]
+    then
+        echo "need one argument!"
+        return
+    fi
+    if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
+    then
+        echo "will install $1"
+        git clone https://gitee.com/apollo-2d/$1.git
+        cd $1
+        ./bootstrap
+        ./configure
+        make
+        sudo make install
+        sudo ldconfig
+        cd ..
+    else
+        echo "$1 has been installed"
+    fi
 }
 
-apt
-librcsc
-rcssserver
-rcssmonitor
-echo "Apollo basic environment installed successfully !-------------------"
+clean(){
+    read -p "Are you sure you're in right directoriy(/../Apollo_env_install)? (Click 'y' to ensure)" ok
+    if [ $ok = 'y' ]
+    then
+        for i in `ls`
+        do
+            if [ -d $i ]
+            then
+                rm -rf $i
+                rm *log
+            fi
+        done
+    fi
+}
+
+main(){
+    seconds=5
+    echo -e "will install all three software:${all[*]}\nWait for ${seconds}seconds.\nPressing [ctrl]+c to stop anytime"
+    sleep $seconds
+    apt
+    for to_install in $to_installs
+    do
+        install_any $to_install
+    done
+}
+
+main > install.log 2> ${log_name} &
+echo "Don't worry.It's installing"
+echo "Use 'tail -f ${log_name}' to see more details.(and ctrl+c to exit)"
+echo "Just hang around and have a cup of tea now."
