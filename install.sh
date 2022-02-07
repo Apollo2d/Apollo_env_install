@@ -1,7 +1,8 @@
 #! /bin/bash
 #set -x
 set -e
-log_name="install.log"
+log_name=~/Apollo_install.log
+middle_location=~/Apollo_env_install
 
 sudo ls > ${log_name}
 
@@ -68,14 +69,18 @@ main(){
     seconds=5
     echo -e "will install all three software:${all[*]}\nWait for ${seconds}seconds.\nPressing [ctrl]+c to stop anytime"
     sleep $seconds
+    mkdir ${middle_location} || cd ${middle_location}
+    cd ${middle_location}
     apt
     for to_install in $to_installs
     do
         install_any $to_install
     done
+    echo "All installed!"
 }
 
-main > install.log 2> ${log_name} &
-echo "Don't worry.It's installing"
-echo "Use 'tail -f ${log_name}' to see more details.(and ctrl+c to exit)"
-echo "Just hang around and have a cup of tea now."
+#main > ${log_name} 2>&1 &
+echo -e "\033[47;30mDon't worry.It's installing in the background.\033[0m"
+echo -e "Use \033[35;4m'tail -f ${log_name}'\033[0m to see more details.(and ctrl+c to exit)"
+echo -e "Just hang around and have a cup of \033[32mtea\033[0m now."
+
