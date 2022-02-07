@@ -7,6 +7,7 @@ sudo ls
 apt(){
 	# 本段参考了官方文档和合工大的自动安装脚本，感谢合工大的前辈们
 	sudo apt update
+	sudo apt install -y git vim
 	sudo apt install -y libboost-all-dev
 	sudo apt install -y g++ automake
 	# from rcssserver
