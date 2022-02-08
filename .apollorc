@@ -58,12 +58,13 @@ Apollo_install(){
     fi
     if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
     then
+        cd ${MIDDLE}
         echo "will install $1"
         if [ ! -d $1 ]
         then
-            git clone https://gitee.com/apollo-2d/$1.git ${MIDDLE}
+            git clone https://gitee.com/apollo-2d/$1.git
         fi        
-        cd ${MIDDLE}/$1
+        cd $1
         ./bootstrap || catch
         ./configure || catch
         make || catch
@@ -72,7 +73,6 @@ Apollo_install(){
         then      
             sudo ldconfig || catch
         fi
-        cd -
         echo -e "\033[47;30m$1\033[0m has been installed"
     else
         echo -e "\033[47;30m$1\033[0m is installed already"
@@ -85,15 +85,9 @@ Apollo_clean(){
     if [ $ok = 'y' -o $ok = 'Y' ]
     then
         echo -e "\033[31mCleaning ${LOGGER}\033[0m"
-        rm ${LOGGER} -f
-        for i in `ls ${MIDDLE}`
-        do
-            if [ -d $i ]
-            then
-                echo -e "\033[31mCleaning $MIDDLE/$i/\033[0m"
-                rm -rf ${MIDDLE}/$i
-            fi
-        done
+        rm -f  ${LOGGER}
+        echo -e "\033[31mCleaning $MIDDLE/$i/\033[0m"
+        rm -rf ${MIDDLE}
     fi
 }
 
@@ -127,6 +121,7 @@ Apollo_install_all(){
     do
         Apollo_install $package
     done
+    cd ~
     echo "Finished!"
 }
 
