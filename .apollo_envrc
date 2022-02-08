@@ -3,20 +3,20 @@
 # set -e # 手写了一个catch 函数
 
 # variables
-log_name=~/Apollo_install.log
-middle_location=~/Apollo_env_install
-seconds=5
+LOGGER=~/Apollo_install.log
+MIDDLE=~/Apollo_env_install
+INTERVAL=5
 
 sudo ls > /dev/null
 
-packages=(librcsc rcssserver rcssmonitor soccerwindow2 fedit2)
+PACKAGES=(librcsc rcssserver rcssmonitor soccerwindow2 fedit2)
 
 
 Apollo_help(){
     # prompt
     echo -e "\033[34mApollo2d@copyright\033[0m.Contact me with kawhicurry@foxmail.com if there's any problem"
     echo -e "You can now run these command to install package from Apollo"
-    echo -e "'Apollo[tab][tab]' to check all available command"
+    echo -e "'Apollo_[tab][tab]' to check all available command"
     echo -e "'Apollo_help to ask for help"
     echo -e "'Apollo_install_all' to install all package"
     echo -e "'Apollo_install [package]' to install certain package"
@@ -24,7 +24,7 @@ Apollo_help(){
     echo -e "'Apollo_list to check available package"
 }
 catch(){
-    echo -e "\033[31mSomething went wrong!Check '${log_name}' to see what happened.\033[0m"
+    echo -e "\033[31mSomething went wrong!Check '${LOGGER}' to see what happened.\033[0m"
     exit 1
 }
 
@@ -47,10 +47,15 @@ Apollo_package(){
 }
 
 Apollo_list(){
-    echo "${packages[@]}"
+    echo "${PACKAGES[@]}"
 }
 
 Apollo_install(){
+    if [ $# -ne 1 ]
+    then
+        echo "need just one argument!"
+        return
+    fi
     if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
     then
         echo "will install $1"
@@ -62,8 +67,11 @@ Apollo_install(){
         ./bootstrap || catch
         ./configure || catch
         make || catch
-        sudo make install || catch
-        sudo ldconfig || catch
+        if [ $1 = librcsc ]
+        then
+            sudo make install || catch
+            sudo ldconfig || catch
+        fi
         cd ..
         echo -e "\033[47;30m$1\033[0m has been installed"
     else
@@ -73,49 +81,49 @@ Apollo_install(){
 }
 
 Apollo_clean(){
-    echo -e "Are you sure middle files are in the right directoriy?\033[35;4m \"$middle_location\"\033[0m" 
+    echo -e "Are you sure middle files are in the right directoriy?\033[35;4m \"$MIDDLE\"\033[0m" 
     read -p "(Click 'y' or 'Y' to ensure)" ok
     if [ $ok = 'y' -o $ok = 'Y' ]
     then
-        echo -e "\033[31mCleaning ${log_name}\033[0m"
-        rm ${log_name} -f
-        for i in `ls ${middle_location}`
+        echo -e "\033[31mCleaning ${LOGGER}\033[0m"
+        rm ${LOGGER} -f
+        for i in `ls ${MIDDLE}`
         do
             if [ -d $i ]
             then
-                echo -e "\033[31mCleaning $middle_location/$i/\033[0m"
-                rm -rf ${middle_location}/$i
+                echo -e "\033[31mCleaning $MIDDLE/$i/\033[0m"
+                rm -rf ${MIDDLE}/$i
             fi
         done
     fi
 }
 
 countdown(){
-    while [ $seconds -gt 0 ];do
-      echo -n "Install will start in $seconds seconds"
+    while [ $INTERVAL -gt 0 ];do
+      echo -n "Install will start in $INTERVAL INTERVAL"
       sleep 1
-      seconds=$(($seconds - 1))
+      INTERVAL=$(($INTERVAL - 1))
       echo -ne "\r     \r" #清除本行文字
     done
 }
 
 Apollo_install_all(){
     echo -e "By printing \033[35;4m'./install.sh help'\033[0m to ask for help"
-    echo -e "Will install ${#packages[*]} software:\033[47;30m${packages[*]}\033[0m"
-    echo -e "The script will download and compile in \033[32m${middle_location}\033[0m"
+    echo -e "Will install ${#PACKAGES[*]} software:\033[47;30m${PACKAGES[*]}\033[0m"
+    echo -e "The script will download and compile in \033[32m${MIDDLE}\033[0m"
     echo -e "Pressing \033[35;4m[Ctrl]+c\033[0m to stop at anytime"  
     # countdown
 
     # workding directory
-    if [ ! -d ${middle_location} ]
+    if [ ! -d ${MIDDLE} ]
     then
-        mkdir ${middle_location}
+        mkdir ${MIDDLE}
     fi
-    cd ${middle_location}
+    cd ${MIDDLE}
 
     # main steps
     package
-    for to_install in $packages
+    for to_install in $PACKAGES
     do
         Apollo_install $to_install
     done
