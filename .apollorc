@@ -58,13 +58,12 @@ Apollo_install(){
     fi
     if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
     then
-        cd ${MIDDLE}
         echo "will install $1"
         if [ ! -d $1 ]
         then
-            git clone https://gitee.com/apollo-2d/$1.git
+            git clone https://gitee.com/apollo-2d/$1.git ${MIDDLE}
         fi        
-        cd $1
+        cd ${MIDDLE}/$1
         ./bootstrap || catch
         ./configure || catch
         make || catch
@@ -73,12 +72,11 @@ Apollo_install(){
         then      
             sudo ldconfig || catch
         fi
-        cd ..
+        cd -
         echo -e "\033[47;30m$1\033[0m has been installed"
     else
         echo -e "\033[47;30m$1\033[0m is installed already"
     fi
-    echo $1
 }
 
 Apollo_clean(){
@@ -101,7 +99,7 @@ Apollo_clean(){
 
 countdown(){
     while [ $INTERVAL -gt 0 ];do
-      echo -n "Install will start in $INTERVAL INTERVAL"
+      echo -n "Install will start in $INTERVAL seconds"
       sleep 1
       INTERVAL=$(($INTERVAL - 1))
       echo -ne "\r     \r" #清除本行文字
@@ -113,7 +111,7 @@ Apollo_install_all(){
     echo -e "Will install ${#PACKAGES[*]} software:\033[47;30m${PACKAGES[*]}\033[0m"
     echo -e "The script will download and compile in \033[32m${MIDDLE}\033[0m"
     echo -e "Pressing \033[35;4m[Ctrl]+c\033[0m to stop at anytime"  
-    echo -e "Install will take a long time!Just grab a cup of tea now."
+    echo -e "This will take a long time!Just have a cup of tea now."
     countdown
 
     # workding directory
@@ -121,15 +119,15 @@ Apollo_install_all(){
     then
         mkdir ${MIDDLE}
     fi
-    cd ${MIDDLE}
+    # cd ${MIDDLE}
 
     # main steps
-    Apollo_package
-    for to_install in $PACKAGES
+    #Apollo_package
+    for package in ${PACKAGES[*]}
     do
-        Apollo_install $to_install
+        Apollo_install $package
     done
-    echo "All installed!"
+    echo "Finished!"
 }
 
 Apollo_help
