@@ -128,7 +128,7 @@ Apollo_install_all(){
         # cd ${MIDDLE}
 
         # main steps
-        #Apollo_package
+        Apollo_package
         for package in ${PACKAGES[*]}
         do
             Apollo_install $package
