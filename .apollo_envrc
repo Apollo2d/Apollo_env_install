@@ -5,7 +5,7 @@
 # variables
 LOGGER=~/Apollo_install.log
 MIDDLE=~/Apollo_env_install
-INTERVAL=5
+INTERVAL=10
 
 sudo ls > /dev/null
 
@@ -25,7 +25,7 @@ Apollo_help(){
 }
 catch(){
     echo -e "\033[31mSomething went wrong!Check '${LOGGER}' to see what happened.\033[0m"
-    exit 1
+    return 1
 }
 
 Apollo_package(){
@@ -58,8 +58,9 @@ Apollo_install(){
     fi
     if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
     then
+        cd ${MIDDLE}
         echo "will install $1"
-        if ![ -d $1 ]
+        if [ ! -d $1 ]
         then
             git clone https://gitee.com/apollo-2d/$1.git
         fi        
@@ -67,9 +68,9 @@ Apollo_install(){
         ./bootstrap || catch
         ./configure || catch
         make || catch
+        sudo make install || catch
         if [ $1 = librcsc ]
-        then
-            sudo make install || catch
+        then      
             sudo ldconfig || catch
         fi
         cd ..
@@ -112,7 +113,8 @@ Apollo_install_all(){
     echo -e "Will install ${#PACKAGES[*]} software:\033[47;30m${PACKAGES[*]}\033[0m"
     echo -e "The script will download and compile in \033[32m${MIDDLE}\033[0m"
     echo -e "Pressing \033[35;4m[Ctrl]+c\033[0m to stop at anytime"  
-    # countdown
+    echo -e "Install will take a long time!Just grab a cup of tea now."
+    countdown
 
     # workding directory
     if [ ! -d ${MIDDLE} ]
@@ -122,7 +124,7 @@ Apollo_install_all(){
     cd ${MIDDLE}
 
     # main steps
-    package
+    Apollo_package
     for to_install in $PACKAGES
     do
         Apollo_install $to_install
