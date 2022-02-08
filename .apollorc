@@ -15,14 +15,17 @@ STATUS=0
 
 Apollo_help(){
     # prompt
-    echo -e "\033[34mApollo2d@copyright\033[0m.Contact me with kawhicurry@foxmail.com if there's any problem"
+    echo -e "\033[34mApollo2d@copyright\033[0m.\nContact me with kawhicurry@foxmail.com if there's any problem"
     echo -e "You can now run these command to install package from Apollo"
-    echo -e "'Apollo_[tab][tab]' to check all available command"
-    echo -e "'Apollo_help to ask for help"
-    echo -e "'Apollo_install_all' to install all package"
-    echo -e "'Apollo_install [package]' to install certain package"
-    echo -e "'Apollo_package' to install necessary package"
-    echo -e "'Apollo_list to check available package"
+    echo -e "\033[32m'Apollo_help'\033[0m\033[0m to ask for help"
+    echo -e "\033[32m'Apollo_[tab][tab]'\033[0m to check all available command"
+    echo -e "\033[32m'Apollo_install_all'\033[0m to install all package"
+    echo -e "\033[32m'Apollo_install [package]'\033[0m to install certain package"
+    echo -e "\033[32m'Apollo_package'\033[0m to install necessary package"
+    echo -e "\033[32m'Apollo_list'\033[0m to check available package"
+    echo -e "'export INTERVAL=0' to skip installation waiting"
+    echo -e "'export LOGGER=/path/to/your/error.log' to set your log location"
+    echo -e "'export MIDDLE=/path/to/your/middle_file/' to set your middle files' location"
 }
 catch(){
     ++STATUS
