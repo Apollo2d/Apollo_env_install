@@ -5,9 +5,17 @@ You can run this script with one command:
 ```
 sudo apt update
 sudo apt install curl -y
-# this script will run background completely
-curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/install.sh | bash
+bash
+curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/install.sh | source
 ```
-This script has **no output**.You need to check output at `~/Apollo_install.log`
+Then run this command to install all necessary package
+```
+Apollo_install_all
+```
+or check for help
+```
+Apollo_help
+```
+After finished installing,remeber to `exit`.
 
 Default middle files will be located at `~/Apollo_env_install/`
