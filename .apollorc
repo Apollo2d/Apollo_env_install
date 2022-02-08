@@ -10,6 +10,7 @@ INTERVAL=10
 sudo ls > /dev/null
 
 PACKAGES=(librcsc rcssserver rcssmonitor soccerwindow2 fedit2)
+STATUS=0
 
 
 Apollo_help(){
@@ -24,8 +25,7 @@ Apollo_help(){
     echo -e "'Apollo_list to check available package"
 }
 catch(){
-    echo -e "\033[31mSomething went wrong!Check '${LOGGER}' to see what happened.\033[0m"
-    return 1
+    ++STATUS
 }
 
 Apollo_package(){
@@ -50,45 +50,19 @@ Apollo_list(){
     echo "${PACKAGES[@]}"
 }
 
-Apollo_install(){
-    if [ $# -ne 1 ]
-    then
-        echo "need just one argument!"
-        return
-    fi
-    if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
-    then
-        cd ${MIDDLE}
-        echo "will install $1"
-        if [ ! -d $1 ]
-        then
-            git clone https://gitee.com/apollo-2d/$1.git
-        fi        
-        cd $1
-        ./bootstrap || catch
-        ./configure || catch
-        make || catch
-        sudo make install || catch
-        if [ $1 = librcsc ]
-        then      
-            sudo ldconfig || catch
-        fi
-        echo -e "\033[47;30m$1\033[0m has been installed"
-    else
-        echo -e "\033[47;30m$1\033[0m is installed already"
-    fi
-}
-
 Apollo_clean(){
-    echo -e "Are you sure middle files are in the right directoriy?\033[35;4m \"$MIDDLE\"\033[0m" 
-    read -p "(Click 'y' or 'Y' to ensure)" ok
-    if [ $ok = 'y' -o $ok = 'Y' ]
-    then
-        echo -e "\033[31mCleaning ${LOGGER}\033[0m"
-        rm -f  ${LOGGER}
-        echo -e "\033[31mCleaning $MIDDLE/$i/\033[0m"
-        rm -rf ${MIDDLE}
-    fi
+    clean(){
+        echo -e "Are you sure middle files are in the right directoriy?\033[35;4m \"$MIDDLE\"\033[0m" 
+        read -p "(Click 'y' or 'Y' to ensure)" ok
+        if [ $ok = 'y' -o $ok = 'Y' ]
+        then
+            echo -e "\033[31mCleaning ${LOGGER}\033[0m"
+            rm -f  ${LOGGER}
+            echo -e "\033[31mCleaning $MIDDLE/$i/\033[0m"
+            rm -rf ${MIDDLE}
+        fi
+    }
+    clean 2>> ${LOGGER}
 }
 
 countdown(){
@@ -100,29 +74,70 @@ countdown(){
     done
 }
 
-Apollo_install_all(){
-    echo -e "By printing \033[35;4m'./install.sh help'\033[0m to ask for help"
-    echo -e "Will install ${#PACKAGES[*]} software:\033[47;30m${PACKAGES[*]}\033[0m"
-    echo -e "The script will download and compile in \033[32m${MIDDLE}\033[0m"
-    echo -e "Pressing \033[35;4m[Ctrl]+c\033[0m to stop at anytime"  
-    echo -e "This will take a long time!Just have a cup of tea now."
-    countdown
-
-    # workding directory
-    if [ ! -d ${MIDDLE} ]
+Apollo_install(){
+    install(){
+        if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
+        then
+            echo "will install $1"
+            if [ ! -d $1 ]
+            then
+                git clone https://gitee.com/apollo-2d/$1.git
+            fi
+            cd $1
+            ./bootstrap || catch
+            ./configure || catch
+            make || catch
+            sudo make install || catch
+            if [ $1 = librcsc ]
+            then      
+                sudo ldconfig || catch
+            fi
+            echo -e "\033[47;30m$1\033[0m has been installed"
+            cd ..
+        else
+            echo -e "\033[47;30m$1\033[0m is installed already"
+        fi
+    }
+    if [ $# -ne 1 ]
     then
-        mkdir ${MIDDLE}
+        echo "need just one argument!"
+        return
     fi
-    # cd ${MIDDLE}
+    cd ${MIDDLE}
+    install $1 2>> $LOGGER
+    cd - > /dev/null
+}
 
-    # main steps
-    #Apollo_package
-    for package in ${PACKAGES[*]}
-    do
-        Apollo_install $package
-    done
-    cd ~
-    echo "Finished!"
+Apollo_install_all(){
+    install_all(){
+        echo -e "By printing \033[35;4m'./install.sh help'\033[0m to ask for help"
+        echo -e "Will install ${#PACKAGES[*]} software:\033[47;30m${PACKAGES[*]}\033[0m"
+        echo -e "The script will download and compile in \033[32m${MIDDLE}\033[0m"
+        echo -e "Pressing \033[35;4m[Ctrl]+c\033[0m to stop at anytime"  
+        echo -e "This will take a long time!Just have a cup of tea now."
+        countdown
+
+        # workding directory
+        if [ ! -d ${MIDDLE} ]
+        then
+            mkdir ${MIDDLE}
+        fi
+        # cd ${MIDDLE}
+
+        # main steps
+        #Apollo_package
+        for package in ${PACKAGES[*]}
+        do
+            Apollo_install $package
+        done
+        if [ $STATUS -ne 0 ]
+        then
+            echo -e "\033[31mSomething went wrong!Check '${LOGGER}' to see what happened.\033[0m"
+        else
+            echo -e "All packages are installed successfully!"
+        fi
+    }
+    install_all 2>> ${LOGGER}
 }
 
 Apollo_help
