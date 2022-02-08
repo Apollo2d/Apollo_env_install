@@ -5,8 +5,7 @@ You can run this script with one command:
 ```bash
 sudo apt update
 sudo apt install curl -y
-bash
-curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_envrc > ~/.apollo_envrc
+curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollo_envrc
 source ~/.apollo_envrc
 ```
 Then run this command to install all necessary package
