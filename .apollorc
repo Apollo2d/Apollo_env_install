@@ -34,16 +34,20 @@ catch(){
 Apollo_package(){
 	# 本段参考了官方文档和合工大的自动安装脚本，感谢合工大的前辈们
 	sudo apt update
-	sudo apt install -y git vim openssh-server
-	sudo apt install -y libboost-all-dev
-	sudo apt install -y g++ automake
+    # necessary tools
+	sudo apt install -y git vim 
+    # option tools
+    sudo apt install -y openssh-server net-tools
+    # build tools
+	sudo apt install -y g++ automake cmake
+
 	# from rcssserver
 	sudo apt install -y g++ make libboost-all-dev bison flex
 	# from rcssmonitor
 	sudo apt install -y build-essential libboost-all-dev qt5-default libfontconfig1-dev libaudio-dev libxt-dev libglib2.0-dev libxi-dev libxrender-dev 
 	# from librcsc
 	sudo apt install -y libboost-dev libcppunit-dev
-    # from soccerwindow2 which same as rcssmonitor
+    # from soccerwindow2 which are same as rcssmonitor
     # sudo apt install build-essential libboost-all-dev qt5-default libfontconfig1-dev libaudio-dev libxt-dev libglib2.0-dev libxi-dev libxrender-dev 
     # from fedit2 which use qt5 today
     # sudo apt install -y libqt4-dev libxpm-dev libaudio-dev libxt-dev libpng-dev libglib2.0-dev libfreetype6-dev libxrender-dev libxext-dev libfontconfig-dev libxi-dev
@@ -143,4 +147,15 @@ Apollo_install_all(){
     install_all 2>> ${LOGGER}
 }
 
-Apollo_help
+Apollo_close_update(){
+    close_auto_update(){
+        sudo bash -c "echo -e \"APT::Periodic::Update-Package-Lists \"0\";\nAPT::Periodic::Download-Upgradeable-Packages \"0\";\nAPT::Periodic::AutocleanInterval \"0\";\nAPT::Periodic::Unattended-Upgrade \"0\";\"  > /etc/apt/apt.conf.d/20auto-upgrades"
+        sudo apt remove unattended-upgrades -y
+    }
+    close_auto_update
+}
+
+
+echo -e "\033[34mApollo2d@copyright\033[0m."
+echo -e "Contact me with kawhicurry@foxmail.com if there's any problem."
+echo -e "Input \033[32m'Apollo_help'\033[0m\033[0m to check help menu."
