@@ -15,14 +15,17 @@ STATUS=0
 
 Apollo_help(){
     # prompt
+    echo -e "---------------------------------------------------------------------------"
     echo -e "\033[34mApollo2d@copyright\033[0m.\nContact me with kawhicurry@foxmail.com if there's any problem"
+    echo -e "---------------------------------------------------------------------------"
     echo -e "You can now run these command to install package from Apollo"
-    echo -e "\033[32m'Apollo_help'\033[0m\033[0m to ask for help"
-    echo -e "\033[32m'Apollo_[tab][tab]'\033[0m to check all available command"
-    echo -e "\033[32m'Apollo_install_all'\033[0m to install all package"
-    echo -e "\033[32m'Apollo_install [package]'\033[0m to install certain package"
-    echo -e "\033[32m'Apollo_package'\033[0m to install necessary package"
-    echo -e "\033[32m'Apollo_list'\033[0m to check available package"
+    echo -e "\033[32m'Apollo_help'\033[0m\033[0m           Ask for help"
+    echo -e "\033[32m'Apollo_[tab][tab]'\033[0m            Check all available command"
+    echo -e "\033[32m'Apollo_install_all'\033[0m           Install all package"
+    echo -e "\033[32m'Apollo_install [package]'\033[0m     install certain package"
+    echo -e "\033[32m'Apollo_package'\033[0m               install necessary package"
+    echo -e "\033[32m'Apollo_list'\033[0m                  check available package"
+    echo -e "---------------------------------------------------------------------------"
     echo -e "'export INTERVAL=0' to skip installation waiting"
     echo -e "'export LOGGER=/path/to/your/error.log' to set your log location"
     echo -e "'export MIDDLE=/path/to/your/middle_file/' to set your middle files' location"
@@ -147,6 +150,10 @@ Apollo_install_all(){
     install_all 2>> ${LOGGER}
 }
 
+Apollo_run(){
+	echo 123
+}
+
 Apollo_close_update(){
     close_auto_update(){
         sudo bash -c "echo -e \"APT::Periodic::Update-Package-Lists \"0\";\nAPT::Periodic::Download-Upgradeable-Packages \"0\";\nAPT::Periodic::AutocleanInterval \"0\";\nAPT::Periodic::Unattended-Upgrade \"0\";\"  > /etc/apt/apt.conf.d/20auto-upgrades"
@@ -156,6 +163,8 @@ Apollo_close_update(){
 }
 
 
+echo -e "---------------------------------------------------------------------------"
 echo -e "\033[34mApollo2d@copyright\033[0m."
+echo -e "---------------------------------------------------------------------------"
 echo -e "Contact me with kawhicurry@foxmail.com if there's any problem."
 echo -e "Input \033[32m'Apollo_help'\033[0m\033[0m to check help menu."

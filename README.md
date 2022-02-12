@@ -53,4 +53,4 @@ source ~/.apollorc
 MIT
 
 # P.S
-Welcome students in NJUPT join Apollo club to enjoy games.
+Welcome students in NJUPT come to Apollo club and enjoy games.
