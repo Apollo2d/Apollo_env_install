@@ -1,0 +1,205 @@
+#!/bin/bash
+# set -x
+#set -e # 手写了一个catch 函数(然后没有什么卵用)
+
+# variables
+if [ ! -f .apollorc ]
+then
+    echo -e "Can't find .apollorc!"
+    return 1
+fi
+. .apollorc
+
+PACKAGES=(librcsc rcssserver rcssmonitor soccerwindow2 fedit2)
+STATUS=0
+Apollo_prompt(){
+    printf '%-50s\n' "--------------------------------------------------------------------------------"
+    printf '\033[34m%-50s\033[0m %-30s\n' "Apollo2d@copyright."
+    printf '\033[34m%-50s\033[0m %-30s\n' "Contact me with kawhicurry@foxmail.com if there's any problem"
+    printf '%3s \033[32m%11s\033[0m %25s\n' "Try " "Apollo_help" " to check more information"
+    printf '%-50s\n' "--------------------------------------------------------------------------------"
+}
+
+Apollo_help(){
+    Apollo_prompt
+    printf '\033[32m%-50s\033[0m %-30s\n' "Apollo_help" "Ask for more help"
+    printf '\033[32m%-50s\033[0m %-30s\n' "Apollo_install_dep" "Install necessary dependency from apt"
+    printf '\033[32m%-50s\033[0m %-30s\n' "Apollo_install_all" "Install all package"
+    printf '\033[32m%-50s\033[0m %-30s\n' "Apollo_install [software]" "Install certain package"
+    printf '\033[32m%-50s\033[0m %-30s\n' "Apollo_list" "Check available package"
+    printf '\033[32m%-50s\033[0m %-30s\n' "Apollo_clean" "Clean middle files"
+    printf '\033[32m%-50s\033[0m %-30s\n' "Apollo_run [script_1] [script_2]" "Begin a game with 2 teams"
+    printf '%-50s\n' "--------------------------------------------------------------------------------"
+    printf '%3s \033[32m%11s\033[0m %25s\n' "Check " ".apollorc" " to set up envirment variable"
+    printf '\033[32m%-50s\033[0m %-30s\n' "export INTERVAL=0" "Skip check interval"
+    printf '\033[32m%-50s\033[0m %-30s\n' "export INS_LOG=/path/to/your/error.log" "Set your log location of installation"
+    printf '\033[32m%-50s\033[0m %-30s\n' "export MIDDLE=/path/to/your/dir/" "Set your middle files' location"
+    printf '\033[32m%-50s\033[0m %-30s\n' "export RESULT=/path/to/your/result_file.log" "Set result files of rcssserver"
+    printf '\033[32m%-50s\033[0m %-30s\n' "export OUTPUT_1=/path/to/your/output.log" "Set the location of the output from team 1"
+    printf '\033[32m%-50s\033[0m %-30s\n' "export OUTPUT_2=/path/to/your/output.log" "Set the location of the output from team 2"
+}
+catch(){
+    ++STATUS
+}
+
+Apollo_install_dep(){
+	# 本段参考了官方文档和合工大的自动安装脚本，感谢合工大的前辈们
+	sudo apt update
+    # necessary tools
+	sudo apt install -y git vim 
+    # option tools
+    sudo apt install -y openssh-server net-tools
+    # build tools
+	sudo apt install -y g++ automake cmake
+
+	# from rcssserver
+	sudo apt install -y g++ make libboost-all-dev bison flex
+	# from rcssmonitor
+	sudo apt install -y build-essential libboost-all-dev qt5-default libfontconfig1-dev libaudio-dev libxt-dev libglib2.0-dev libxi-dev libxrender-dev 
+	# from librcsc
+	sudo apt install -y libboost-dev libcppunit-dev
+    # from soccerwindow2 which are same as rcssmonitor
+    # sudo apt install build-essential libboost-all-dev qt5-default libfontconfig1-dev libaudio-dev libxt-dev libglib2.0-dev libxi-dev libxrender-dev 
+    # from fedit2 which use qt5 today ,qt5 has installed in rcssmonitor
+    # sudo apt install -y libqt4-dev libxpm-dev libaudio-dev libxt-dev libpng-dev libglib2.0-dev libfreetype6-dev libxrender-dev libxext-dev libfontconfig-dev libxi-dev
+}
+
+Apollo_list(){
+    echo "${PACKAGES[*]}"
+}
+
+Apollo_clean(){
+    clean(){
+        echo -e "Are you sure middle files are in the right directoriy?\033[35;4m \"$MIDDLE\"\033[0m" 
+        read -p "(Click 'y' or 'Y' to ensure)" ok
+        if [ $ok = 'y' -o $ok = 'Y' ]
+        then
+            echo -e "\033[31mCleaning ${INS_LOG}\033[0m"
+            rm -f  ${INS_LOG}
+            echo -e "\033[31mCleaning $MIDDLE/$i/\033[0m"
+            rm -rf ${MIDDLE}
+        fi
+    }
+    clean 2>> ${INS_LOG}
+}
+
+countdown(){
+    interval=$2
+    while [ $interval -gt 0 ];do
+      echo -n "$1 will Start in $interval seconds"
+      sleep 1
+      interval=$(($interval - 1))
+      echo -ne "\r     \r" #清除本行文字
+    done
+}
+
+Apollo_install(){
+    install(){
+        if [[ -z `which $1` && -z `ldconfig -p | grep $1` ]]
+        then
+            echo "will install $1"
+            if [ ! -d $1 ]
+            then
+                git clone https://gitee.com/apollo-2d/$1.git
+            fi
+            cd $1
+            ./bootstrap || catch
+            ./configure || catch
+            make || catch
+            sudo make install || catch
+            if [ $1 = librcsc ]
+            then      
+                sudo ldconfig || catch
+            fi
+            echo -e "\033[47;30m$1\033[0m has been installed"
+            cd ..
+        else
+            echo -e "\033[47;30m$1\033[0m is installed already"
+        fi
+    }
+    if [ $# -ne 1 ]
+    then
+        echo "need just one argument!"
+        return
+    fi
+    cd ${MIDDLE}
+    install $1 2>> $INS_LOG
+    cd - > /dev/null
+}
+
+Apollo_install_all(){
+    install_all(){
+        echo -e "By printing \033[35;4m'./install.sh help'\033[0m to ask for help"
+        echo -e "Will install ${#PACKAGES[*]} software:\033[47;30m${PACKAGES[*]}\033[0m"
+        echo -e "The script will download and compile in \033[32m${MIDDLE}\033[0m"
+        echo -e "Pressing \033[35;4m[Ctrl]+c\033[0m to stop at anytime"  
+        echo -e "This will take a long time!Just have a cup of tea now."
+        countdown Install $INTERVAL
+
+        # workding directory
+        if [ ! -d ${MIDDLE} ]
+        then
+            mkdir ${MIDDLE}
+        fi
+        # cd ${MIDDLE}
+
+        # main steps
+        Apollo_install_dep
+        for package in ${PACKAGES[*]}
+        do
+            Apollo_install $package
+        done
+        if [ $STATUS -ne 0 ]
+        then
+            echo -e "\033[31mSomething went wrong!Check '${INS_LOG}' to see what happened.\033[0m"
+        else
+            echo -e "All packages are installed successfully!"
+        fi
+    }
+    install_all 2>> ${INS_LOG}
+}
+
+Apollo_run(){
+    if [ $# -eq 3 ]
+	then
+	    echo -e "\033[31mNeed at least 2 arguments!\033[0m "
+	    echo -e "Usage:\033[37m Apollo_run /path/to/Team1/start.sh /path/to/Team2/start \033[0m"
+        return 1
+    fi
+    if [ ! -f $1 ]
+	then
+	    echo -e "\033[31mCan not find $1!\033[0m "
+	    echo -e "Usage:\033[37m Apollo_run /path/to/Team1/start.sh /path/to/Team2/start \033[0m"
+        return 1
+    fi
+    if [ ! -f $2 ]
+	then
+	    echo -e "\033[31mCan not find $2!\033[0m "
+	    echo -e "Usage:\033[37m Apollo_run /path/to/Team1/start.sh /path/to/Team2/start \033[0m"
+        return 1
+    fi
+
+    (
+        sleep 2
+        cd $(dirname $(readlink -f "$1"))
+        $1 > $OUTPUT_1 2>&1 &
+    )
+    (
+        sleep 3
+        cd $(dirname $(readlink -f "$2"))
+        $2 > $OUTPUT_2 2>&1 &
+    )
+
+    rcssserver
+
+}
+
+Apollo_close_update(){
+    close_auto_update(){
+        sudo bash -c "echo -e \"APT::Periodic::Update-Package-Lists \"0\";\nAPT::Periodic::Download-Upgradeable-Packages \"0\";\nAPT::Periodic::AutocleanInterval \"0\";\nAPT::Periodic::Unattended-Upgrade \"0\";\"  > /etc/apt/apt.conf.d/20auto-upgrades"
+        sudo apt remove unattended-upgrades -y
+    }
+    close_auto_update
+}
+
+Apollo_prompt

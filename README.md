@@ -16,24 +16,30 @@ You can install all necessary software with commands below:
 sudo apt update
 sudo apt install curl -y
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollorc
-source ~/.apollorc
+curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile_ > ~/.apollo_profile
+source ~/.apollo_profile
 Apollo_install_all
 ```
 
 ## Install
-`Apollo_env_install` is an enviorment set-up tools that write with `bash script`.All you need to do is dowanload `.apollorc` and `. .apollorc`(or `source .apollorc`)
+`Apollo_env_install` is an enviorment set-up tools that write with `bash script`.All you need to do is dowanload `.apollo_profile` and `.apollorc`,Then `source .apollo_profile`(or `. .apollorc`).
+
+You can add `source ~/.apollo_profile` to your `~/.bashrc` or `~/.profile`,too.(If you know what you're doing)
 
 **Notice**:The scripts clone repo from gitee.
 ```bash
+#download env shell first
+curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile > ~/.apollo_profile
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollorc
 # or with wget
+wget https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile -O ~/.apoll_profile
 wget https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc -O ~/.apollrc
 
-. ~/.apollorc
+# source it
+. ~/.apollo_profile
 # or use source directly
-source ~/.apollorc
+source ~/.apollo_profile
 ```
-
 
 ## Usage
 
@@ -41,6 +47,9 @@ source ~/.apollorc
 ```bash
 Apollo_help
 ```
+
+### Set up enviroment variables
+Open .apollorc to check more details.
 
 ### Check available software
 ```bash
@@ -89,20 +98,6 @@ Apollo_list
 # Apollo_run [script1] [script2]
 Apollo_run ~/apollo2d/start.sh ~/yushan2d/start.sh
 # //todo: Feature of recoring teams will be add in next version
-```
-
-
-
-```bash
-'Apollo_help' to ask for help
-'Apollo_[tab][tab]' to check all available command
-'Apollo_install_all' to install all package
-'Apollo_install [package]' to install certain package
-'Apollo_package' to install necessary package
-'Apollo_list' to check available package
-'export INTERVAL=0' to skip installation waiting
-'export LOGGER=/path/to/your/error.log' to set your log location
-'export MIDDLE=/path/to/your/middle_file/' to set your middle files' location
 ```
 
 # License
