@@ -11,7 +11,7 @@ We decide to organising all of them and make them open source.We hope these will
 See u next `robocup`.
 
 ## TLDR
-You can install all necessary tools with commands below:
+You can install all necessary software with commands below:
 ```bash
 sudo apt update
 sudo apt install curl -y
@@ -37,6 +37,62 @@ source ~/.apollorc
 
 ## Usage
 
+### Help menu
+```bash
+Apollo_help
+```
+
+### Check available software
+```bash
+Apollo_list
+```
+output are like below
+```bash
+librcsc rcssserver rcssmonitor soccerwindow2 fedit2
+```
+
+### Install enviroment only
+```bash
+Apollo_package
+```
+This command will call `apt` to install all necessary packages
+
+### Install all software
+```bash
+Apollo_install_all
+# then wait for 10 seconds and everything will be installed
+```
+There's some variables here.
+- You can skip waiting by set `export INTERVAL=0`.
+- Output files are redirect to variable `INS_LOG`, which is set at `~/Apollo_install.log` by default
+- Middle files are saved at `MIDDLE`, which is set at `~/Apollo_env_install` by default
+
+After install all necessary software, you can clean all middle files.
+```bash
+Apollo_clean
+```
+
+### Install particular sortware
+```bash
+# take librcsc as example
+Apollo_install librcsc
+```
+Check available package by `Apollo_list` first
+
+### Check available software first
+```bash
+Apollo_list
+```
+
+### Begin a match of two team
+```bash
+# Apollo_run [script1] [script2]
+Apollo_run ~/apollo2d/start.sh ~/yushan2d/start.sh
+# //todo: Feature of recoring teams will be add in next version
+```
+
+
+
 ```bash
 'Apollo_help' to ask for help
 'Apollo_[tab][tab]' to check all available command
@@ -53,4 +109,4 @@ source ~/.apollorc
 MIT
 
 # P.S
-Welcome students in NJUPT join Apollo club to enjoy games.
+Welcome students in NJUPT come to Apollo club and enjoy games.
