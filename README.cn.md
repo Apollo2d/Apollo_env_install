@@ -4,7 +4,7 @@
 
 ## Background
 Robocup2d是个有趣的仿真项目比赛，国内有诸多高校组建队伍参与，其中就有我们来自南京邮电大学的Apollo2d。    
-我们曾经也饱受配置2d仿真平台的折磨，但最终我们自己找到的解决之策并积累了积累了丰富的经验。    
+我们曾经也饱受配置2d仿真平台的折磨，但最终我们自己找到的解决之策并积累了丰富的经验。    
 大佬ysy决心打破现状，将所有的配置步骤整合成此脚本并开源共所有人使用，希望所有使用此脚本的人都能轻松搭建并从仿真2d中获得快乐!   
 期望在Rococup中与你相遇~ ~ ~
 
@@ -39,8 +39,75 @@ wget https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc -O ~/.apo
 source ~/.apollorc
 ```
 
-
 ## 用法
+
+### 帮助菜单
+
+```bash
+Apollo_help
+```
+
+### 查看可用依赖
+
+```bash
+Apollo_list
+```
+
+输出格式如下
+
+```bash
+librcsc rcssserver rcssmonitor soccerwindow2 fedit2
+```
+
+### 只安装环境
+
+```bash
+Apollo_package
+```
+
+这条指令会调用`apt`去安装所有必要的依赖
+
+### 安装所有依赖
+
+```bash
+Apollo_install_all
+# then wait for 10 seconds and everything will be installed
+```
+
+这里有几个变量：
+
+- 设置 `export INTERVAL=0`跳过等待时间
+- 输出文件会重定向到 `INS_LOG`变量，默认初始化为`~/Apollo_install.log` 
+- 中间文件会被保存`MIDDLE`中，默认初始化为`~/Apollo_install.log` 
+
+安装完所有必要依赖后，清除中间文件
+
+```bash
+Apollo_clean
+```
+
+### 安装指定依赖
+
+```bash
+# take librcsc as example
+Apollo_install librcsc
+```
+
+### 首先查看可用依赖
+
+```bash
+Apollo_list
+```
+
+### 比赛开始（两支队伍）
+
+```bash
+# Apollo_run [script1] [script2]
+Apollo_run ~/apollo2d/start.sh ~/yushan2d/start.sh
+# //todo: Feature of recoring teams will be add in next version
+```
+
+
 
 ```bash
 'Apollo_help'  查看帮助
