@@ -11,11 +11,13 @@ github：[中文](https://github.com/Apollo2d/Apollo_env_install/blob/main/READM
 Initialize enviorment for members of Apollo2d and others who attend Soccer 2D Simulation.
 
 ## Background
-Robocup2d is an interesting simulation project that lots of teams in china involve in and Apollo2d from NJUPT is one of them.
+Robocup2d is an interesting simulation project that lots of teams in China participate in and Apollo2d from NJUPT is one of them.
 
 We used to suffer from installing enviroment of 2D platform,but we finally figure it out and accumulate a lot of experience.
 
-We decide to organising all of them and make them open source.We hope these will help everyone who enjoy soccer games of 2D simulation.
+We decide to collect all of them and make them open to everyone.We hope these will help everyone who enjoy soccer games of 2D simulation.
+
+Submit issue in [github](https://github.com/Apollo2d/Apollo_env_install) or contact me by email <kawhicurry@foxmail.com> if you discover any bug.
 
 See u next `robocup`.
 
@@ -31,7 +33,7 @@ Apollo_install_all
 ```
 
 ## Install
-`Apollo_env_install` is an enviorment set-up tools that write with `bash script`.All you need to do is dowanload `.apollo_profile` and `.apollorc`,Then `source .apollo_profile`(or `. .apollorc`).
+`Apollo_env_install` is an enviorment set-up tools that write with `bash script`.All you need to do is dowanload `.apollo_profile` and `.apollorc`,Then `source .apollo_profile`(or `. .apollo_profile`).
 
 You can add `source ~/.apollo_profile` to your `~/.bashrc` or `~/.profile`,too.(If you know what you're doing)
 
@@ -90,7 +92,7 @@ After install all necessary software, you can clean all middle files.
 Apollo_clean
 ```
 
-### Install particular sortware
+### Install particular software
 ```bash
 # take librcsc as example
 Apollo_install librcsc

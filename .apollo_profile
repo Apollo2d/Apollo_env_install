@@ -33,7 +33,6 @@ Apollo_help() {
     printf '\033[32m%-50s\033[0m %-30s\n' "export INTERVAL=0" "Skip check interval"
     printf '\033[32m%-50s\033[0m %-30s\n' "export INS_LOG=/path/to/your/error.log" "Set your log location of installation"
     printf '\033[32m%-50s\033[0m %-30s\n' "export MIDDLE=/path/to/your/dir/" "Set your middle files' location"
-    printf '\033[32m%-50s\033[0m %-30s\n' "export RESULT=/path/to/your/result_file.log" "Set result files of rcssserver"
     printf '\033[32m%-50s\033[0m %-30s\n' "export OUTPUT_1=/path/to/your/output.log" "Set the location of the output from team 1"
     printf '\033[32m%-50s\033[0m %-30s\n' "export OUTPUT_2=/path/to/your/output.log" "Set the location of the output from team 2"
 }

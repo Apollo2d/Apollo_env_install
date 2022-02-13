@@ -1,16 +1,16 @@
-# variables
-INS_LOG=~/Apollo_install.log
-MIDDLE=~/Apollo_env_install
-INTERVAL=10
-RESULT=./result.log
-OUTPUT_1=./1.log
-OUTPUT_2=./2.log
+# variables -------------------------------------------------------------------
+INS_LOG=~/Apollo_install.log # the location of output during installation
+MIDDLE=~/Apollo_env_install  # the location of middle files during installation
+INTERVAL=10                  # interval to check installation info
+OUTPUT_1=./$(date)-1.log     # output of your team 1
+OUTPUT_2=./$(date)-2.log     # output of your team 2
 
-# teams
+# teams -----------------------------------------------------------------------
 # Add your teams start scripts here and `source .apollorc` to reload enviorment
 # eg. Apollo_run $team_1 $team_2
 # var $DEFAULT set up your default team.
+
 DEFAULT=~/Desktop/apollo2d-exe/start.sh
 
-team_1=~/Desktop/apollo2d-exe/start.sh
-team_2=~/Desktop/Yushan/start.sh
+# team_1=~/Desktop/apollo2d-exe/start.sh
+# team_2=~/Desktop/Yushan/start.sh
