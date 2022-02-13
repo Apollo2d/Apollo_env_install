@@ -1,4 +1,13 @@
 # Apollo_env_install
+
+---
+
+gitee：[中文](https://gitee.com/apollo-2d/Apollo_env_install/tree/main) | [English](https://gitee.com/apollo-2d/Apollo_env_install/blob/main/README.md)
+
+github：[中文](https://github.com/Apollo2d/Apollo_env_install/blob/main/README.cn.md) | [English](https://github.com/Apollo2d/Apollo_env_install)
+
+---
+
 Initialize enviorment for members of Apollo2d and others who attend Soccer 2D Simulation.
 
 ## Background
@@ -15,8 +24,8 @@ You can install all necessary software with commands below:
 ```bash
 sudo apt update
 sudo apt install curl -y
+curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile > ~/.apollo_profile
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollorc
-curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile_ > ~/.apollo_profile
 source ~/.apollo_profile
 Apollo_install_all
 ```

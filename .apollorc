@@ -9,6 +9,8 @@ OUTPUT_2=./2.log
 # teams
 # Add your teams start scripts here and `source .apollorc` to reload enviorment
 # eg. Apollo_run $team_1 $team_2
+# var $DEFAULT set up your default team.
+DEFAULT=~/Desktop/apollo2d-exe/start.sh
+
 team_1=~/Desktop/apollo2d-exe/start.sh
 team_2=~/Desktop/Yushan/start.sh
-

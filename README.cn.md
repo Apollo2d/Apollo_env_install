@@ -1,6 +1,16 @@
 # Apollo_env_install
 
-旨在为Apollo2d的成员以及其他参与足球仿真2d的小伙伴们一键初始化环境      
+---
+
+gitee：[中文](https://gitee.com/apollo-2d/Apollo_env_install/tree/main) | [English](https://gitee.com/apollo-2d/Apollo_env_install/blob/main/README.md)
+
+github：[中文](https://github.com/Apollo2d/Apollo_env_install/blob/main/README.cn.md) | [English](https://github.com/Apollo2d/Apollo_env_install)
+
+---
+
+旨在为Apollo2d的成员以及其他参与足球仿真2d的小伙伴们一键初始化环境
+
+*来自原作者的缺心小提示：英文文档更新比中文快一点，建议看英文文档呢*
 
 ## Background
 Robocup2d是个有趣的仿真项目比赛，国内有诸多高校组建队伍参与，其中就有我们来自南京邮电大学的Apollo2d。    
