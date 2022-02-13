@@ -7,10 +7,11 @@ if [ ! -f .apollorc ]; then
     echo -e "Can't find .apollorc!"
     return 1
 fi
-. .apollorc
+source .apollorc
+OUTPUT_1=$(readlink -f $OUTPUT_1)
+OUTPUT_2=$(readlink -f $OUTPUT_2)
 
-PACKAGES=(librcsc rcssserver rcssmonitor soccerwindow2 fedit2)
-STATUS=0
+
 Apollo_prompt() {
     printf '%-50s\n' "--------------------------------------------------------------------------------"
     printf '\033[34m%-50s\033[0m %-30s\n' "Apollo2d@copyright."
@@ -155,9 +156,9 @@ Apollo_run() {
     fi
     local AWAY=$1
     if [ $# -eq 1 ]; then
-        local HOME=$2
-    else
         local HOME=$DEFAULT
+    else
+        local HOME=$2
     fi
 
     if [ ! -f $HOME ]; then
@@ -171,16 +172,16 @@ Apollo_run() {
         return 1
     fi
 
-    (
+    {
         sleep 2
         cd $(dirname $(readlink -f "$HOME"))
-        $1 >$OUTPUT_1 2>&1 &
-    )
-    (
-        sleep 2
+        $HOME >$OUTPUT_1 2>&1 &
+    } &
+    {
+        sleep 4
         cd $(dirname $(readlink -f "$AWAY"))
-        $2 >$OUTPUT_2 2>&1 &
-    )
+        $AWAY >$OUTPUT_2 2>&1 &
+    } &
 
     rcssserver
 
