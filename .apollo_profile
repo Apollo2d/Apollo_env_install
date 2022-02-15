@@ -8,8 +8,6 @@ if [ ! -f .apollorc ]; then
     return 1
 fi
 source .apollorc
-OUTPUT_1=$(readlink -f $OUTPUT_1)
-OUTPUT_2=$(readlink -f $OUTPUT_2)
 
 
 Apollo_prompt() {
@@ -36,6 +34,25 @@ Apollo_help() {
     printf '\033[32m%-50s\033[0m %-30s\n' "export MIDDLE=/path/to/your/dir/" "Set your middle files' location"
     printf '\033[32m%-50s\033[0m %-30s\n' "export OUTPUT_1=/path/to/your/output.log" "Set the location of the output from team 1"
     printf '\033[32m%-50s\033[0m %-30s\n' "export OUTPUT_2=/path/to/your/output.log" "Set the location of the output from team 2"
+}
+
+Apollo_change_source(){
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+    sudo bash -c "echo -e \"# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+    deb $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    # deb-src $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic main main restricted universe multiverse
+    deb $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    # deb-src $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    # deb-src $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    # deb-src $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+
+    # 预发布软件源，不建议启用
+    # deb $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+    # deb-src $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse\" > /etc/apt/sources.list"
+    
+    sudo apt update
 }
 
 Apollo_install_dep() {
@@ -93,7 +110,7 @@ Apollo_install() {
         if [[ -z $(which $1) && -z $(ldconfig -p | grep $1) ]]; then
             echo "will install $1"
             if [ ! -d $1 ]; then
-                git clone https://gitee.com/apollo-2d/$1.git
+                git clone http://gitee.com/apollo-2d/$1.git
             fi
             cd $1
             ./bootstrap
@@ -160,6 +177,8 @@ Apollo_run() {
     else
         local HOME=$2
     fi
+    OUTPUT_1=$(readlink -f $OUTPUT_1)
+    OUTPUT_2=$(readlink -f $OUTPUT_2)
 
     if [ ! -f $HOME ]; then
         echo -e "\033[31mCan not find $HOME!\033[0m "

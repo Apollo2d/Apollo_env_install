@@ -29,6 +29,7 @@ sudo apt install curl -y
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile > ~/.apollo_profile
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollorc
 source ~/.apollo_profile
+Apollo_change_source # not necessary but recommand
 Apollo_install_all
 ```
 
@@ -69,6 +70,11 @@ Apollo_list
 output are like below
 ```bash
 librcsc rcssserver rcssmonitor soccerwindow2 fedit2
+```
+
+### Change apt source
+```bash
+Apollo_change_source
 ```
 
 ### Install enviroment only
