@@ -9,7 +9,6 @@ if [ ! -f .apollorc ]; then
 fi
 source .apollorc
 
-
 Apollo_prompt() {
     printf '%-50s\n' "--------------------------------------------------------------------------------"
     printf '\033[34m%-50s\033[0m %-30s\n' "Apollo2d@copyright."
@@ -36,7 +35,7 @@ Apollo_help() {
     printf '\033[32m%-50s\033[0m %-30s\n' "export OUTPUT_2=/path/to/your/output.log" "Set the location of the output from team 2"
 }
 
-Apollo_change_source(){
+Apollo_change_source() {
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
     sudo bash -c "echo -e \"# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
     deb $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic main restricted universe multiverse
@@ -51,7 +50,7 @@ Apollo_change_source(){
     # 预发布软件源，不建议启用
     # deb $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
     # deb-src $HTTP://mirrors.$MIRROR.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse\" > /etc/apt/sources.list"
-    
+
     sudo apt update
 }
 
@@ -203,6 +202,48 @@ Apollo_run() {
     } &
 
     rcssserver
+
+}
+
+Apollo_auto_run() {
+    if [ $# -eq 0 ]; then
+        echo -e "\033[31mNeed at least 1 arguments!\033[0m "
+        echo -e "Usage 1:\033[37m Apollo_run /path/to/Team1/start.sh /path/to/Team2/start \033[0m"
+        echo -e "Usage 2:\033[37m Apollo_run /path/to/Team2/start \033[0m"
+        return 1
+    fi
+    local AWAY=$1
+    if [ $# -eq 1 ]; then
+        local HOME=$DEFAULT
+    else
+        local HOME=$2
+    fi
+    OUTPUT_1=$(readlink -f $OUTPUT_1)
+    OUTPUT_2=$(readlink -f $OUTPUT_2)
+
+    if [ ! -f $HOME ]; then
+        echo -e "\033[31mCan not find $HOME!\033[0m "
+        echo -e "Usage:\033[37m Apollo_run /path/to/Team1/start.sh /path/to/Team2/start \033[0m"
+        return 1
+    fi
+    if [ ! -f $AWAY ]; then
+        echo -e "\033[31mCan not find $AWAY!\033[0m "
+        echo -e "Usage:\033[37m Apollo_run /path/to/Team1/start.sh /path/to/Team2/start \033[0m"
+        return 1
+    fi
+
+    {
+        sleep 2
+        cd $(dirname $(readlink -f "$HOME"))
+        $HOME >$OUTPUT_1 2>&1 &
+    } &
+    {
+        sleep 4
+        cd $(dirname $(readlink -f "$AWAY"))
+        $AWAY >$OUTPUT_2 2>&1 &
+    } &
+
+    rcssserver server::auto_mode=on server::synch_mode=on
 
 }
 

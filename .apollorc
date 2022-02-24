@@ -13,7 +13,7 @@ OUTPUT_2=./2.log                                               # output of your 
 # eg. Apollo_run $team_1 $team_2
 # var $DEFAULT set up your default team.
 
-DEFAULT=~/Desktop/robocup/apollo2d-exe/start.sh
+DEFAULT=~/Desktop/teams/apollo2d-exe/start.sh
 
 # team_1=~/Desktop/apollo2d-exe/start.sh
-# team_2=~/Desktop/Yushan/start.sh
+team_2=~/Desktop/teams/YuShan2021/start.sh

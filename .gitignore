@@ -1,2 +1,5 @@
 */
 build
+*.log
+*.rcl
+*.rcg
