@@ -37,7 +37,7 @@ Apollo_install_all
 
 `Apollo_env_install`是一个用`bash script`写的环境搭建工具，使用的只需要下载 `.apollorc` 和 `. .apollorc`(或者 `source .apollorc`)
 
-**提示**: 从gitee（码云）下载此脚本         
+**提示**: 从[gitee](https://gitee.com/apollo-2d/Apollo_env_install)下载此脚本         
 
 ```bash
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollorc
@@ -118,18 +118,6 @@ Apollo_run ~/apollo2d/start.sh ~/yushan2d/start.sh
 ```
 
 
-
-```bash
-'Apollo_help'  查看帮助
-'Apollo_[tab][tab]' 查看所有的可用命令
-'Apollo_install_all' 安装所有功能包
-'Apollo_install [package]' 安装指定功能包
-'Apollo_package' 仅安装必要功能包
-'Apollo_list' 查看可获得的功能包
-'export INTERVAL=0' 跳过安装等待
-'export LOGGER=/path/to/your/error.log' 设置log日志的位置
-'export MIDDLE=/path/to/your/middle_file/' 设置中间文件位置
-```
 
 # License
 
