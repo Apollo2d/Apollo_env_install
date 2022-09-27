@@ -1,7 +1,9 @@
 # variables -------------------------------------------------------------------
 HTTP=http                                                      # the protocol of apt source
 MIRROR=njupt                                                   # change source of apt
-PACKAGES=(librcsc rcssserver rcssmonitor soccerwindow2 fedit2) # packages
+GIT_SOURCE=https://ghproxy.com/https://github.com/
+GIT_SOURCE=https://github.com/
+PACKAGES=(rcsoccersim/rcssserver rcsoccersim/rcssmonitor helios-base/librcsc helios-base/soccerwindow2 helios-base/fedit2) # packages
 INS_LOG=~/Apollo_install.log                                   # the location of output during installation
 MIDDLE=~/Apollo_env_install                                    # the location of middle files during installation
 INTERVAL=10                                                    # interval to check installation info
