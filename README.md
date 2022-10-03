@@ -11,6 +11,7 @@ github：[中文](https://github.com/Apollo2d/Apollo_env_install/blob/main/READM
 Initialize enviorment for members of Apollo2d and others who attend Soccer 2D Simulation.
 
 ## Background
+
 Robocup2d is an interesting simulation project that lots of teams in China participate in and Apollo2d from NJUPT is one of them.
 
 We used to suffer from installing enviroment of 2D platform,but we finally figure it out and accumulate a lot of experience.
@@ -22,23 +23,30 @@ Submit issue in [github](https://github.com/Apollo2d/Apollo_env_install) or cont
 See u next `robocup`.
 
 ## TLDR
+
 You can install all necessary software with commands below:
+
 ```bash
 sudo apt update
 sudo apt install curl -y
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile > ~/.apollo_profile
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollorc
 source ~/.apollo_profile
-Apollo_change_source # not necessary but recommand
+# Next step is not necessary but recommand
+# If you want to change source of apt ,just choose one of them
+Apollo_change_source_18 #If you use Ubuntu 18.04
+Apollo_change_source_20 #If you use Ubuntu 20.04
 Apollo_install_all
 ```
 
 ## Install
+
 `Apollo_env_install` is an enviorment set-up tools that write with `bash script`.All you need to do is dowanload `.apollo_profile` and `.apollorc`,Then `source .apollo_profile`(or `. .apollo_profile`).
 
 You can add `source ~/.apollo_profile` to your `~/.bashrc` or `~/.profile`,too.(If you know what you're doing)
 
 **Notice**:The scripts clone repo from gitee.
+
 ```bash
 #download env shell first
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile > ~/.apollo_profile
@@ -56,61 +64,77 @@ source ~/.apollo_profile
 ## Usage
 
 ### Help menu
+
 ```bash
 Apollo_help
 ```
 
 ### Set up enviroment variables
+
 Open .apollorc to check more details.
 
 ### Check available software
+
 ```bash
 Apollo_list
 ```
+
 output are like below
+
 ```bash
 librcsc rcssserver rcssmonitor soccerwindow2 fedit2
 ```
 
 ### Change apt source
+
 ```bash
 Apollo_change_source
 ```
 
 ### Install enviroment only
+
 ```bash
 Apollo_package
 ```
+
 This command will call `apt` to install all necessary packages
 
 ### Install all software
+
 ```bash
 Apollo_install_all
 # then wait for 10 seconds and everything will be installed
 ```
+
 There's some variables here.
+
 - You can skip waiting by set `export INTERVAL=0`.
 - Output files are redirect to variable `INS_LOG`, which is set at `~/Apollo_install.log` by default
 - Middle files are saved at `MIDDLE`, which is set at `~/Apollo_env_install` by default
 
 After install all necessary software, you can clean all middle files.
+
 ```bash
 Apollo_clean
 ```
 
 ### Install particular software
+
 ```bash
 # take librcsc as example
 Apollo_install librcsc
 ```
+
 Check available package by `Apollo_list` first
 
 ### Check available software first
+
 ```bash
 Apollo_list
 ```
 
 ### Begin a match of two team
+
 ```bash
 # Apollo_run [script1] [script2]
 Apollo_run ~/apollo2d/start.sh ~/yushan2d/start.sh
@@ -118,7 +142,9 @@ Apollo_run ~/apollo2d/start.sh ~/yushan2d/start.sh
 ```
 
 # License
+
 MIT
 
 # P.S
+
 Welcome students in NJUPT come to Apollo club and enjoy games.
