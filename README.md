@@ -88,7 +88,8 @@ librcsc rcssserver rcssmonitor soccerwindow2 fedit2
 ### Change apt source
 
 ```bash
-Apollo_change_source
+Apollo_change_source_18 #If you use Ubuntu 18.04
+Apollo_change_source_20 #If you use Ubuntu 20.04
 ```
 
 ### Install enviroment only
