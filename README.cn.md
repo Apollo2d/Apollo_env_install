@@ -20,19 +20,24 @@ Robocup2d是个有趣的仿真项目比赛，国内有诸多高校组建队伍�
 
 
 
-## TLDR
+## 使用说明
 
-你可以用接下来的指令安装所有必要工具。
+假设你已经获取了脚本名，那么你可以用接下来的指令安装所有必要工具。
 
 ```bash
 sudo apt update
 sudo apt install curl -y
+curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollo_profile > ~/.apollo_profile
 curl https://gitee.com/apollo-2d/Apollo_env_install/raw/main/.apollorc > ~/.apollorc
-source ~/.apollorc
+source ~/.apollo_profile
+# 下面一步不是必要的，但我推荐你这么做
+# 根据你系统的不同，你选择下面的指令之一执行即可
+Apollo_change_source_18 #如果你使用的是 Ubuntu 18.04 LTS
+Apollo_change_source_20 #如果你使用的是Ubuntu 20.04 LTS
 Apollo_install_all
 ```
 
-## Install
+## 获取脚本
 
 
 `Apollo_env_install`是一个用`bash script`写的环境搭建工具，使用的只需要下载 `.apollorc` 和 `. .apollorc`(或者 `source .apollorc`)
@@ -56,6 +61,10 @@ source ~/.apollorc
 ```bash
 Apollo_help
 ```
+
+### 设置环境变量
+
+Open .apollorc to check more details.
 
 ### 查看可用依赖
 
